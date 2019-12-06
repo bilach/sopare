@@ -18,18 +18,19 @@ under the License.
 """
 
 import matplotlib
-matplotlib.use('Agg')
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as pyplot
 from sopare.path import __plotdestination__
 
-class visual:
 
+class visual:
     def __init__(self):
-        self.plot_cache = [ ]
+        self.plot_cache = []
 
     def create_sample(self, data, filename):
         pyplot.plot(data)
-        pyplot.savefig(__plotdestination__+filename)
+        pyplot.savefig(__plotdestination__ + filename)
         pyplot.clf()
 
     def extend_plot_cache(self, data):

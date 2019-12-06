@@ -17,16 +17,16 @@ under the License.
 import multiprocessing
 import numpy
 
-class multi(multiprocessing.Process):
 
+class multi(multiprocessing.Process):
     def __init__(self, queue):
         multiprocessing.Process.__init__(self, name="multiprocessing buffering queue")
         self.queue = queue
         self.running = True
         self.start()
-  
+
     def run(self):
-        while (self.running == True or self.queue.is_alive()):
+        while self.running is True or self.queue.is_alive():
             buf = self.queue.get()
             data = numpy.fromstring(buf, dtype=numpy.int16)
             fft = numpy.fft.rfft(data)

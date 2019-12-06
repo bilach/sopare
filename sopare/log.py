@@ -19,22 +19,22 @@ under the License.
 
 import logging
 
-class log():
 
-    def __init__(self, debug, error, cfg = None):
-        if (error == True):
-            logging.basicConfig(filename='error.log', filemode='a', loglevel='ERROR')
+class log:
+    def __init__(self, debug, error, cfg=None):
+        if error:
+            logging.basicConfig(filename="error.log", filemode="a", loglevel="ERROR")
         else:
             logging.basicConfig()
         self.logger = logging.getLogger()
-        self.logformat = '%(levelname)s: %(message)s'
-        self.loglevel = 'ERROR'
-        if (error == False and cfg != None and cfg.hasoption('misc', 'LOGLEVEL')):
-            check = cfg.getoption('misc', 'LOGLEVEL')
-            if (check != ''):
+        self.logformat = "%(levelname)s: %(message)s"
+        self.loglevel = "ERROR"
+        if not error and cfg is not None and cfg.hasoption("misc", "LOGLEVEL"):
+            check = cfg.getoption("misc", "LOGLEVEL")
+            if check != "":
                 self.loglevel = check
-        if (error == False and debug == True):
-            self.loglevel = 'DEBUG'
+        if not error and debug:
+            self.loglevel = "DEBUG"
         self.logger.setLevel(self.loglevel)
         ch = logging.StreamHandler()
         ch.setFormatter(self.logformat)

@@ -23,28 +23,43 @@ import sopare.config as config
 import sopare.filter as filter
 import sopare.log as log
 
-class test_filter(unittest.TestCase):
 
+class test_filter(unittest.TestCase):
     def __init__(self, debug, cfg):
-        print ('filter test preparation...')
-        self.util = util.util(debug, cfg.getfloatoption('characteristic', 'PEAK_FACTOR'))
-        cfg.setoption('stream', 'CHUNKS', '10')
+        print("filter test preparation...")
+        self.util = util.util(
+            debug, cfg.getfloatoption("characteristic", "PEAK_FACTOR")
+        )
+        cfg.setoption("stream", "CHUNKS", "10")
         self.filter = filter.filtering(cfg)
         self.CHUNKS = 10
         self.test_filter_n_shift()
-        print ('filter tests run successful.')
+        print("filter tests run successful.")
         self.filter.stop()
 
     def test_filter_n_shift(self):
-        print ('testing filter n_shift...')
-        data_object_array = [ v for v in range(0, 40) ]
-        for x in xrange(0, len(data_object_array), self.CHUNKS):
-            data_object = data_object_array[x:x+self.CHUNKS]
+        print("testing filter n_shift...")
+        data_object_array = [v for v in range(0, 40)]
+        for x in range(0, len(data_object_array), self.CHUNKS):
+            data_object = data_object_array[x : x + self.CHUNKS]
             self.filter.n_shift(data_object)
-            correct_object = [ ]
-            if (x == 0):
+            correct_object = []
+            if x == 0:
                 self.filter.first = False
             else:
-                correct_object = data_object_array[x-self.CHUNKS/2:x+self.CHUNKS/2]
-                print ('testing n_shift '+str(self.filter.data_shift) + ' == ' + str(correct_object))
-                self.assertSequenceEqual(self.filter.data_shift, correct_object, 'test_filter_n_shift 0 failed!')
+                correct_object = data_object_array[
+                    int(x - self.CHUNKS / 2) : int(x + self.CHUNKS / 2)
+                ]
+                print(
+                    (
+                        "testing n_shift "
+                        + str(self.filter.data_shift)
+                        + " == "
+                        + str(correct_object)
+                    )
+                )
+                self.assertSequenceEqual(
+                    self.filter.data_shift,
+                    correct_object,
+                    "test_filter_n_shift 0 failed!",
+                )

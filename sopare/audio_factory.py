@@ -20,8 +20,8 @@ under the License.
 import pyaudio
 import logging
 
-class audio_factory():
 
+class audio_factory:
     def __init__(self, cfg):
         self.cfg = cfg
         self.logger = self.cfg.getlogger().getlog()
@@ -31,25 +31,27 @@ class audio_factory():
         self.debug_once = False
 
     def open(self, sample_rate, input_format=pyaudio.paInt16):
-        if (self.debug_once == False):
-            self.logger.debug('#### Default input device info #####')
-            for k, v in self.pa.get_default_input_device_info().iteritems():
-                self.logger.debug(str(k) + ': ' + str(v))
+        if not self.debug_once:
+            self.logger.debug("#### Default input device info #####")
+            for k, v in self.pa.get_default_input_device_info().items():
+                self.logger.debug(str(k) + ": " + str(v))
             self.debug_once = True
         try:
-            self.stream = self.pa.open(format = input_format,
-                channels = 1, # mono
+            self.stream = self.pa.open(
+                format=input_format,
+                channels=1,  # mono
                 rate=sample_rate,
                 input=True,
                 output=False,
-                frames_per_buffer = self.cfg.getintoption('stream', 'CHUNK'))
+                frames_per_buffer=self.cfg.getintoption("stream", "CHUNK"),
+            )
         except IOError as e:
             self.logger.error("Error: " + str(e))
             return None
         return self.stream
 
     def close(self):
-        if (self.stream != None):
+        if self.stream is not None:
             try:
                 self.stream.stop_stream()
                 self.stream.close()

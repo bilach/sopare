@@ -21,8 +21,8 @@ import multiprocessing
 import logging
 import sopare.processing
 
-class buffering(multiprocessing.Process):
 
+class buffering(multiprocessing.Process):
     def __init__(self, cfg, queue):
         multiprocessing.Process.__init__(self, name="buffering queue")
         self.cfg = cfg
@@ -38,7 +38,10 @@ class buffering(multiprocessing.Process):
         self.logger.info("buffering queue runner")
         while True:
             buf = self.queue.get()
-            if ((self.cfg.getbool('cmdlopt', 'endless_loop') == False or self.cfg.getoption('cmdlopt', 'outfile') != None) and self.PROCESS_ROUND_DONE):
+            if (
+                not self.cfg.getbool("cmdlopt", "endless_loop")
+                or self.cfg.getoption("cmdlopt", "outfile") is not None
+            ) and self.PROCESS_ROUND_DONE:
                 break
             self.proc.check_silence(buf)
         self.logger.info("terminating queue runner")

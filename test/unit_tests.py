@@ -17,13 +17,13 @@ License for the specific language governing permissions and limitations
 under the License.
 """
 
-import test_analyze
-import test_filter
+from . import test_analyze
+from . import test_filter
 
-class unit_tests():
 
+class unit_tests:
     def __init__(self, debug, cfg):
-        print ('starting analyze tests...')
+        print("starting analyze tests...")
         test_analyze.test_analyze(debug, cfg)
         test_filter.test_filter(debug, cfg)
-        print ('unit_tests run successful!')
+        print("unit_tests run successful!")
